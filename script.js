@@ -118,15 +118,7 @@ _c.onmousedown = function () {
     currentGrid = grid();
 }
 
-
-stats = new Stats();
-stats.setMode(0);
-stats.domElement.style.position = 'absolute';
-stats.domElement.style.left = '0px';
-stats.domElement.style.top = '0px';
-
 function moveBox () {
-    stats.begin();
     if (typeof this.counter === 'undefined') {
         this.counter = Date.now();
     }
@@ -140,7 +132,6 @@ function moveBox () {
     }
     renderGrid(currentGrid);
     renderPath(oldPath);
-    stats.end();
     requestAnimationFrame(moveBox);
 }
   
