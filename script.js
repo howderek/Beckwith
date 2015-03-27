@@ -1,4 +1,4 @@
-var gridSize = Math.floor(Math.sqrt(Math.min(innerHeight, innerWidth))) / 2,
+var gridSize = (Math.floor(Math.sqrt(Math.min(innerHeight, innerWidth))) / 4 + 16),
     _c = document.getElementById('grid'),
         context = _c.getContext('2d'),
     beckwith = new Beckwith(),
@@ -29,7 +29,7 @@ function renderGrid(data) {
     
     for (var i = 0; i < data.height; i += 1) {
         for (var j = 0; j < data.width; j += 1) {
-            if (data.map[i][j] === 1) {
+            if (data.map[i][j] === 0) {
                 context.fillRect(j * gridSize, i * gridSize, gridSize, gridSize);
             }
         }
@@ -47,10 +47,10 @@ function renderPath (path) {
     var colorFactor = Math.floor(255 / path.length),
         currentDelta = 0;
     for (var i = 0; i < path.length; i += 1) {
-        renderBox(path[i].x, path[i].y, 'rgba(' + (255 - currentDelta) +',' + currentDelta +', 36, 0.68)');
+        renderBox(path[i].y, path[i].x, 'rgba(' + (255 - currentDelta) +',' + currentDelta +', 36, 0.68)');
         currentDelta += colorFactor;
     }
-    renderBox(currentGrid.startingPlace[1], currentGrid.startingPlace[0], '#f00');
+    renderBox(currentGrid.startingPlace[0], currentGrid.startingPlace[1], '#f00');
 }
 
 function grid(chance) {     
@@ -65,9 +65,9 @@ function grid(chance) {
     for (var i = 0; i < height; i += 1) {
         map[i] = [];
         for (var j = 0; j < width; j += 1) {
-            var wall = (Math.random() < chance);
+            var wall = (Math.random() > chance);
             map[i][j] = Number(wall);
-            if (!wall) {
+            if (wall) {
                 potentialStartingPlaces.push([i,j]);
             }
                 
@@ -90,20 +90,20 @@ _c.onmousemove = function (e) {
     var x = Math.floor((e.clientX) / gridSize),
         y = Math.floor((e.clientY) / gridSize);
 
-    if (currentGrid.map[y][x] === 0 && (x !== oldX || y !== oldY)) {
+    if (currentGrid.map[y][x] === 1 && (x !== oldX || y !== oldY)) {
         context.clearRect(0,0,_c.width,_c.height);
         renderGrid(currentGrid);
         
-        renderBox(currentGrid.startingPlace[1], currentGrid.startingPlace[0], '#f00');
+        renderBox(currentGrid.startingPlace[0], currentGrid.startingPlace[1], '#f00');
         renderBox(x, y, '#0f0');
         
-        beckwith.findPath(currentGrid.map, [0], currentGrid.startingPlace[1], currentGrid.startingPlace[0], x, y).then(function (message) {
+        beckwith.findPath(currentGrid.map, currentGrid.startingPlace[0], currentGrid.startingPlace[1], x, y).then(function (message) {
             if (message) {
                 renderGrid(currentGrid);
                 renderBox(x, y, '#0f0');
                 oldX = x;
                 oldY = y;
-                oldPath = message.slice(1,message.length);;
+                oldPath = message;;
             }
         });
         /*function (result) {
@@ -122,11 +122,13 @@ function moveBox () {
     if (typeof this.counter === 'undefined') {
         this.counter = Date.now();
     }
-    if (Date.now() - this.counter >= 75 && oldPath.length > 1) {
-        var nextSpot = oldPath.shift();
-        currentGrid.startingPlace[1] = nextSpot.x;
-        currentGrid.startingPlace[0] = nextSpot.y;
+    if (Date.now() - this.counter >= 100 && oldPath.length > 1) {
+        oldPath.shift();
+        currentGrid.startingPlace[1] = oldPath[0].x;
+        currentGrid.startingPlace[0] = oldPath[0].y;
         this.counter = Date.now();
+        
+        
     }
     renderGrid(currentGrid);
     renderPath(oldPath);
