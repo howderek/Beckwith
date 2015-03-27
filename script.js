@@ -68,7 +68,7 @@ function grid(chance) {
             var wall = (Math.random() > chance);
             map[i][j] = Number(wall);
             if (wall) {
-                potentialStartingPlaces.push([i,j]);
+                potentialStartingPlaces.push([j,i]);
             }
                 
         }
