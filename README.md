@@ -1,6 +1,6 @@
 # Beckwith
 #### Asynchronus A* Pathfinding with Promises
-Beckwith is a library for doing super-fast A* pathfinding in a seperate thread, and is ideal for applications that need to have fluid UX while doing computationally heavy pathfinding, such as finding paths for large numbers of characters in a game, or computing the path betweem two points on an extremely large map.
+Beckwith is a library for doing super-fast A* pathfinding in a separate thread, and is ideal for applications that need to have fluid UX while doing computationally heavy pathfinding, such as finding paths for large numbers of characters in a game, or computing the path betweem two points on an extremely large map.
 
 In the Web Worker, it uses a slightly modified and very minified version of [@bgrins](https://github.com/bgrins/javascript-astar) [javascript-astar](https://github.com/bgrins/javascript-astar) library, which is hella fast because it uses `BinaryHeaps`.
 #### Usage
