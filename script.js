@@ -119,10 +119,8 @@ _c.onmousedown = function () {
 }
 
 
-var stats = new Stats();
-stats.setMode(1); // 0: fps, 1: ms
-
-// align top-left
+stats = new Stats();
+stats.setMode(0);
 stats.domElement.style.position = 'absolute';
 stats.domElement.style.left = '0px';
 stats.domElement.style.top = '0px';
