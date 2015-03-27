@@ -5,6 +5,8 @@ Beckwith is a library for doing super-fast A* pathfinding in a seperate thread, 
 In the Web Worker, it uses a slightly modified and very minified version of [@bgrins](https://github.com/bgrins/javascript-astar) [javascript-astar](https://github.com/bgrins/javascript-astar) library, which is hella fast because it uses `BinaryHeaps`.
 #### Usage
 
+small example: https://jsfiddle.net/howderek/w86bc46k/
+
     //create a new Beckwith object;
     var bw = new Beckwith();
     //create a map (2D Array) 1 is travesable, 0 is a wall.
