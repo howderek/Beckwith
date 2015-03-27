@@ -30,25 +30,27 @@ var Beckwith = (function () {
         
     };
     
+    //Handles creating the web worker
     function Thread(code) { 
+        //Get the body of the code to inject
         this.code = code.toString().substring(code.toString().indexOf('{') + 1, code.toString().lastIndexOf('}'));
         var workerURL = URL.createObjectURL(new Blob([this.code], {
             type: 'text/javascript'
         }));
         this.worker = new Worker(workerURL);
-        this.onmessage = function (message) {
-            this.currentPromise(message.data);
-        }
     };
     
+    //Kills the Web Worker
     Thread.prototype.stop = function () {
         this.worker.terminate();
     };
     
+    //Sets the callback when onmessage is sent from the worker
     Thread.prototype.setCallback = function (func) {
         this.worker.onmessage = func;
     }
     
+    //Handles creating the web worker
     Thread.prototype.call = function () {
         var args = [];
         for (var i = 0; i < arguments.length; i += 1) {
@@ -57,12 +59,14 @@ var Beckwith = (function () {
         this.worker.postMessage(args);
     }
     
+    //constructor, creates the thread and sets the debug flag
     var Beckwith = function(debug) {
         this.DEBUG = !!(debug);
         this.Thread = new Thread(WorkerCode);
         this.log('Beckwith: Ready for service, sir!');
         
     };
+    
     
     Beckwith.prototype = {
         log: function (message, level) {
@@ -79,6 +83,7 @@ var Beckwith = (function () {
             this.log('You: Find us that path!');
             var me = this;
             
+            //returns a new promise with the results
             this.currentPromise = new Promise(
                 function (resolve, reject) {
                     var scope = this;
