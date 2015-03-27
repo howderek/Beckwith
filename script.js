@@ -1,4 +1,4 @@
-var gridSize = (Math.floor(Math.sqrt(Math.min(innerHeight, innerWidth))) / 4 + 16),
+var gridSize = (Math.floor(Math.sqrt(Math.min(innerHeight, innerWidth))) / 4),
     _c = document.getElementById('grid'),
         context = _c.getContext('2d'),
     beckwith = new Beckwith(),
