@@ -7,23 +7,21 @@
 var Beckwith = (function () {
     //Guts of this function to be injected into a WebWorker using a Blob
     function WorkerCode() {
-    /**
-    *	easystar-0.1.8.min.js
-    *	github.com/prettymuchbryce/EasyStarJS
-    *	Licensed under the MIT license.
-    * 
-    *	Implementation By Bryce Neal (@prettymuchbryce)
-    **/    
-        "function"==typeof define&&define.amd&&define("easystar",[],function(){return EasyStar}),"undefined"!=typeof module&&module.exports&&(module.exports=EasyStar);var EasyStar=EasyStar||{};EasyStar.Node=function(t,i,e,n,s){this.parent=t,this.x=i,this.y=e,this.costSoFar=n,this.simpleDistanceToTarget=s,this.bestGuessDistance=function(){return this.costSoFar+this.simpleDistanceToTarget}},EasyStar.Node.OPEN_LIST=0,EasyStar.Node.CLOSED_LIST=1,EasyStar.PriorityQueue=function(t,i){this.length=0;var e=[],n=!1;if(i==EasyStar.PriorityQueue.MAX_HEAP)n=!0;else{if(i!=EasyStar.PriorityQueue.MIN_HEAP)throw i+" not supported.";n=!1}this.insert=function(i){if(!i.hasOwnProperty(t))throw"Cannot insert "+i+" because it does not have a property by the name of "+t+".";e.push(i),this.length++,s(this.length-1)},this.getHighestPriorityElement=function(){return e[0]},this.shiftHighestPriorityElement=function(){if(0===this.length)throw"There are no more elements in your priority queue.";if(1===this.length){var t=e[0];return e=[],this.length=0,t}var i=e[0],n=e.pop();return this.length--,e[0]=n,a(0),i};var s=function(t){if(0!==t){var i=l(t);r(t,i)&&(o(t,i),s(i))}},a=function(t){var i=h(t),e=u(t);if(r(i,t))o(t,i),a(i);else if(r(e,t))o(t,e),a(e);else{if(0==t)return;a(0)}},o=function(t,i){var n=e[t];e[t]=e[i],e[i]=n},r=function(i,s){if(void 0===e[s]||void 0===e[i])return!1;var a,o;return"function"==typeof e[i][t]?(a=e[i][t](),o=e[s][t]()):(a=e[i][t],o=e[s][t]),n?a>o?!0:!1:o>a?!0:!1},l=function(t){return Math.floor(t/2)-1},h=function(t){return 2*t+1},u=function(t){return 2*t+2}},EasyStar.PriorityQueue.MAX_HEAP=0,EasyStar.PriorityQueue.MIN_HEAP=1,EasyStar.instance=function(){this.isDoneCalculating=!0,this.pointsToAvoid={},this.startX,this.callback,this.startY,this.endX,this.endY,this.nodeHash={},this.openList},EasyStar.js=function(){var t,i,e,n=10,s=14,a={},o={},r=[],l=Number.MAX_VALUE,h=!1;this.setAcceptableTiles=function(t){t instanceof Array?e=t:!isNaN(parseFloat(t))&&isFinite(t)&&(e=[t])},this.enableDiagonals=function(){h=!0},this.disableDiagonals=function(){h=!1},this.setGrid=function(i){t=i;for(var e=0;e<t.length;e++)for(var n=0;n<t[0].length;n++)o[t[e][n]]||(o[t[e][n]]=1)},this.setTileCost=function(t,i){o[t]=i},this.setIterationsPerCalculation=function(t){l=t},this.avoidAdditionalPoint=function(t,i){a[t+"_"+i]=1},this.stopAvoidingAdditionalPoint=function(t,i){delete a[t+"_"+i]},this.stopAvoidingAllAdditionalPoints=function(){a={}},this.findPath=function(i,s,a,o,l){if(void 0===e)throw"You can't set a path without first calling setAcceptableTiles() on EasyStar.";if(void 0===t)throw"You can't set a path without first calling setGrid() on EasyStar.";if(0>i||0>s||0>a||0>a||i>t[0].length-1||s>t.length-1||a>t[0].length-1||o>t.length-1)throw"Your start or end point is outside the scope of your grid.";i===a&&s===o&&l([]);for(var h=t[o][a],u=!1,c=0;c<e.length;c++)if(h===e[c]){u=!0;break}if(u===!1)return void l(null);var y=new EasyStar.instance;y.openList=new EasyStar.PriorityQueue("bestGuessDistance",EasyStar.PriorityQueue.MIN_HEAP),y.isDoneCalculating=!1,y.nodeHash={},y.startX=i,y.startY=s,y.endX=a,y.endY=o,y.callback=l,y.openList.insert(f(y,y.startX,y.startY,null,n)),r.push(y)},this.calculate=function(){if(0!==r.length&&void 0!==t&&void 0!==e)for(i=0;l>i;i++){if(0===r.length)return;if(0!==r[0].openList.length){var a=r[0].openList.shiftHighestPriorityElement();if(a.list=EasyStar.Node.CLOSED_LIST,a.y>0&&(u(r[0],a,0,-1,n*o[t[a.y-1][a.x]]),r[0].isDoneCalculating===!0))r.shift();else if(a.x<t[0].length-1&&(u(r[0],a,1,0,n*o[t[a.y][a.x+1]]),r[0].isDoneCalculating===!0))r.shift();else if(a.y<t.length-1&&(u(r[0],a,0,1,n*o[t[a.y+1][a.x]]),r[0].isDoneCalculating===!0))r.shift();else if(a.x>0&&(u(r[0],a,-1,0,n*o[t[a.y][a.x-1]]),r[0].isDoneCalculating===!0))r.shift();else if(h){if(a.x>0&&a.y>0&&(u(r[0],a,-1,-1,s*o[t[a.y-1][a.x-1]]),r[0].isDoneCalculating===!0)){r.shift();continue}if(a.x<t[0].length-1&&a.y<t.length-1&&(u(r[0],a,1,1,s*o[t[a.y+1][a.x+1]]),r[0].isDoneCalculating===!0)){r.shift();continue}if(a.x<t[0].length-1&&a.y>0&&(u(r[0],a,1,-1,s*o[t[a.y-1][a.x+1]]),r[0].isDoneCalculating===!0)){r.shift();continue}if(a.x>0&&a.y<t.length-1&&(u(r[0],a,-1,1,s*o[t[a.y+1][a.x-1]]),r[0].isDoneCalculating===!0)){r.shift();continue}}}else r[0].callback(null),r.shift()}};var u=function(i,n,s,o,r){var l=n.x+s,h=n.y+o;if(i.endX===l&&i.endY===h){i.isDoneCalculating=!0;var u=[],c=0;u[c]={x:l,y:h},c++,u[c]={x:n.x,y:n.y},c++;for(var y=n.parent;null!=y;)u[c]={x:y.x,y:y.y},c++,y=y.parent;u.reverse(),i.callback(u)}if(void 0===a[l+"_"+h])for(var d=0;d<e.length;d++)if(t[h][l]===e[d]){var g=f(i,l,h,n,r);void 0===g.list?(g.list=EasyStar.Node.OPEN_LIST,i.openList.insert(g)):g.list===EasyStar.Node.OPEN_LIST&&n.costSoFar+r<g.costSoFar&&(g.costSoFar=n.costSoFar+r,g.parent=n);break}},f=function(t,i,e,n,s){if(void 0!==t.nodeHash[i+"_"+e])return t.nodeHash[i+"_"+e];var a=c(i,e,t.endX,t.endY);if(null!==n)var o=n.costSoFar+s;else o=a;var r=new EasyStar.Node(n,i,e,o,a);return t.nodeHash[i+"_"+e]=r,r},c=function(t,i,e,s){return Math.sqrt(Math.abs(e-t)*Math.abs(e-t)+Math.abs(s-i)*Math.abs(s-i))*n}};
+       // javascript-astar 0.4.0
+       // http://github.com/bgrins/javascript-astar
+       // Freely distributable under the MIT License.
+       // Implements the astar search algorithm in javascript using a Binary Heap.
+       // Includes Binary Heap (with modifications) from Marijn Haverbeke.
+       // http://eloquentjavascript.net/appendix2.html
         
-        function work(map, acceptableTiles, startX, startY, endX, endY) {
-            var easystar = new EasyStar.js();
-            easystar.setGrid(map);
-            easystar.setAcceptableTiles(acceptableTiles);
-            easystar.findPath(startX, startY, endX, endY, function (result) {
-                postMessage(result);
-            });
-            easystar.calculate();
+        !function(a){if("object"==typeof module&&"object"==typeof module.exports)module.exports=a();else if("function"==typeof define&&define.amd)define([],a);else{var b=a();astar=b.astar,Graph=b.Graph}}(function(){function a(a){for(var b=a,c=[];b.parent;)c.push(b),b=b.parent;return c.reverse()}function b(){return new f(function(a){return a.f})}function d(a,b){b=b||{},this.nodes=[],this.diagonal=!!b.diagonal,this.grid=[];for(var c=0;c<a.length;c++){this.grid[c]=[];for(var d=0,f=a[c];d<f.length;d++){var g=new e(c,d,f[d]);this.grid[c][d]=g,this.nodes.push(g)}}this.init()}function e(a,b,c){this.x=a,this.y=b,this.weight=c}function f(a){this.content=[],this.scoreFunction=a}var c={search:function(d,e,f,g){d.cleanDirty(),g=g||{};var h=g.heuristic||c.heuristics.manhattan,i=g.closest||!1,j=b(),k=e;for(e.h=h(e,f),j.push(e);j.size()>0;){var l=j.pop();if(l===f)return a(l);l.closed=!0;for(var m=d.neighbors(l),n=0,o=m.length;o>n;++n){var p=m[n];if(!p.closed&&!p.isWall()){var q=l.g+p.getCost(l),r=p.visited;(!r||q<p.g)&&(p.visited=!0,p.parent=l,p.h=p.h||h(p,f),p.g=q,p.f=p.g+p.h,d.markDirty(p),i&&(p.h<k.h||p.h===k.h&&p.g<k.g)&&(k=p),r?j.rescoreElement(p):j.push(p))}}}return i?a(k):[]},heuristics:{manhattan:function(a,b){var c=Math.abs(b.x-a.x),d=Math.abs(b.y-a.y);return c+d},diagonal:function(a,b){var c=1,d=Math.sqrt(2),e=Math.abs(b.x-a.x),f=Math.abs(b.y-a.y);return c*(e+f)+(d-2*c)*Math.min(e,f)}},cleanNode:function(a){a.f=0,a.g=0,a.h=0,a.visited=!1,a.closed=!1,a.parent=null}};return d.prototype.init=function(){this.dirtyNodes=[];for(var a=0;a<this.nodes.length;a++)c.cleanNode(this.nodes[a])},d.prototype.cleanDirty=function(){for(var a=0;a<this.dirtyNodes.length;a++)c.cleanNode(this.dirtyNodes[a]);this.dirtyNodes=[]},d.prototype.markDirty=function(a){this.dirtyNodes.push(a)},d.prototype.neighbors=function(a){var b=[],c=a.x,d=a.y,e=this.grid;return e[c-1]&&e[c-1][d]&&b.push(e[c-1][d]),e[c+1]&&e[c+1][d]&&b.push(e[c+1][d]),e[c]&&e[c][d-1]&&b.push(e[c][d-1]),e[c]&&e[c][d+1]&&b.push(e[c][d+1]),this.diagonal&&(e[c-1]&&e[c-1][d-1]&&b.push(e[c-1][d-1]),e[c+1]&&e[c+1][d-1]&&b.push(e[c+1][d-1]),e[c-1]&&e[c-1][d+1]&&b.push(e[c-1][d+1]),e[c+1]&&e[c+1][d+1]&&b.push(e[c+1][d+1])),b},d.prototype.toString=function(){for(var c,d,e,f,a=[],b=this.grid,g=0,h=b.length;h>g;g++){for(c=[],d=b[g],e=0,f=d.length;f>e;e++)c.push(d[e].weight);a.push(c.join(" "))}return a.join("\n")},e.prototype.toString=function(){return"["+this.x+" "+this.y+"]"},e.prototype.getCost=function(a){return a&&a.x!=this.x&&a.y!=this.y?1.41421*this.weight:this.weight},e.prototype.isWall=function(){return 0===this.weight},f.prototype={push:function(a){this.content.push(a),this.sinkDown(this.content.length-1)},pop:function(){var a=this.content[0],b=this.content.pop();return this.content.length>0&&(this.content[0]=b,this.bubbleUp(0)),a},remove:function(a){var b=this.content.indexOf(a),c=this.content.pop();b!==this.content.length-1&&(this.content[b]=c,this.scoreFunction(c)<this.scoreFunction(a)?this.sinkDown(b):this.bubbleUp(b))},size:function(){return this.content.length},rescoreElement:function(a){this.sinkDown(this.content.indexOf(a))},sinkDown:function(a){for(var b=this.content[a];a>0;){var c=(a+1>>1)-1,d=this.content[c];if(!(this.scoreFunction(b)<this.scoreFunction(d)))break;this.content[c]=b,this.content[a]=d,a=c}},bubbleUp:function(a){for(var b=this.content.length,c=this.content[a],d=this.scoreFunction(c);;){var h,e=a+1<<1,f=e-1,g=null;if(b>f){var i=this.content[f];h=this.scoreFunction(i),d>h&&(g=f)}if(b>e){var j=this.content[e],k=this.scoreFunction(j);(null===g?d:h)>k&&(g=e)}if(null===g)break;this.content[a]=this.content[g],this.content[g]=c,a=g}}},{astar:c,Graph:d}});
+
+        
+        function work(map, startX, startY, endX, endY) {
+            var graph = new Graph(map),
+                start = graph.grid[startY][startX],
+                end = graph.grid[endY][endX];
+            postMessage(astar.search(graph, start, end));
         }
         
         onmessage = function (message) {
@@ -77,7 +75,7 @@ var Beckwith = (function () {
                 console.log('%c' + message, 'color: #6f3232');
             }
         },
-        findPath: function (map, acceptableTiles, startX, startY, endX, endY) {
+        findPath: function (map, startX, startY, endX, endY) {
             this.log('You: Find us that path!');
             var me = this;
             
@@ -88,7 +86,7 @@ var Beckwith = (function () {
                         resolve.call(scope, message.data);
                     });
                     me.log('Beckwith: I found the path sir! I\'ll send it now!');
-                    me.Thread.call(map, acceptableTiles, startX, startY, endX, endY);
+                    me.Thread.call(map, startX, startY, endX, endY);
                 }
             );
             
