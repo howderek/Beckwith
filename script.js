@@ -116,6 +116,7 @@ _c.onmousemove = function (e) {
 }
 _c.onmousedown = function () {
     currentGrid = grid();
+    oldPath = [{x:currentGrid.startingPlace[1], y:currentGrid.startingPlace[0]}]
 }
 
 function moveBox () {
